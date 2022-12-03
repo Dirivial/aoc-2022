@@ -17,17 +17,15 @@ input.forEach((line) => {
   const letters = [];
 
   c1.split("").forEach((character, index) => {
-    c2.split("").forEach((char) => {
-      if (char == character) {
-        if (!letters.includes(c1.charCodeAt(index))) {
-          letters.push(c1.charCodeAt(index));
-        }
+    if (c2.indexOf(new String(character))) {
+      if (!letters.includes(c1.charCodeAt(index))) {
+        letters.push(c1.charCodeAt(index));
       }
-    });
+    }
   });
+
   letters.forEach((letter) => {
-    const code = parseInt("" + letter, 10);
-    if (code > 91) {
+    if (letter > 91) {
       sum += letter % 96;
     } else {
       sum += (letter % 65) + 27;
