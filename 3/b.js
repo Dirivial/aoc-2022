@@ -9,40 +9,25 @@ const input = syncReadFile("./input.txt").split("\n");
 const sinput = syncReadFile("./sinput.txt").split("\n");
 
 let sum = 0;
-let lines = [];
 
-input.forEach((line) => {
-  if (lines.length < 2) {
-    lines.push(line);
-    return;
-  }
-  const letters = [];
-  const c1 = lines[0];
-  const c2 = lines[1];
-  const c3 = line;
+for (let i = 0; i < input.length; i += 3) {
+  let letter = 0;
+  const c1 = input[i];
+  const c2 = input[i + 1];
+  const c3 = input[i + 2];
 
   c1.split("").forEach((character, index) => {
-    c2.split("").forEach((char) => {
-      if (char == character) {
-        c3.split("").forEach((ch) => {
-          if (ch == character) {
-            if (!letters.includes(c1.charCodeAt(index))) {
-              letters.push(c1.charCodeAt(index));
-            }
-          }
-        });
-      }
-    });
-  });
-  letters.forEach((letter) => {
-    const code = parseInt("" + letter, 10);
-    if (code > 91) {
-      sum += letter % 96;
-    } else {
-      sum += (letter % 65) + 27;
+    const s = new String(character);
+    if (c2.indexOf(s) != -1 && c3.indexOf(s) != -1) {
+      letter = c1.charCodeAt(index);
     }
   });
-  lines = [];
-});
+
+  if (letter > 91) {
+    sum += letter % 96;
+  } else {
+    sum += (letter % 65) + 27;
+  }
+}
 
 console.log(sum);
