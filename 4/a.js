@@ -1,16 +1,8 @@
-const fs = require("fs");
-
-function syncReadFile(filename) {
-  const contents = fs.readFileSync(filename, "utf-8");
-  return contents;
-}
-
-const input = syncReadFile("./input.txt").split("\n");
-const sinput = syncReadFile("./sinput.txt").split("\n");
+const input = await Deno.readTextFile("./input.txt");
 
 let sum = 0;
 
-input.forEach((line) => {
+input.split("\n").forEach((line) => {
   const pairs = line.split(",");
 
   const [lowA, highA] = pairs[0].split("-").map((v) => Number(v));
