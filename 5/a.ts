@@ -27,7 +27,7 @@ inputStacks.forEach((layer) => {
 
 // Instructions
 inputArray.forEach((instruction) => {
-  const [m, move, f, from, t, to] = instruction.split(" ");
+  const [_m, move, _f, from, _t, to] = instruction.split(" ");
   for (let i = 0; i < Number(move); i++) {
     stacks[Number(to) - 1].push(stacks[Number(from) - 1].pop());
   }
