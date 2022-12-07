@@ -14,8 +14,12 @@ function changeDir(dir: string) {
   if (dir == "/") {
     currentDirectory = fileTree;
   } else if (dir == "..") {
-    currentDirectory = currentDirectory.parent!;
+    // Set current to parent, which we know exist unless we are in the root directory
+    if (currentDirectory !== fileTree) {
+      currentDirectory = currentDirectory.parent!;
+    }
   } else {
+    // Create subdirectory if it does not already exist
     if (!currentDirectory.subdirs[dir]) {
       currentDirectory.subdirs[dir] = {
         parent: currentDirectory,
@@ -23,6 +27,7 @@ function changeDir(dir: string) {
         subdirs: {},
       };
     }
+    // Move to subdirectory
     currentDirectory = currentDirectory.subdirs[dir];
   }
 }
@@ -32,6 +37,7 @@ inputArray.forEach((line) => {
   if (line.startsWith("$ cd")) {
     changeDir(line.substring(5));
   } else {
+    // If there is no file size, we just ignore it
     const sizeOfFile = line.match(/[0-9]+/);
     if (sizeOfFile) {
       const fileName = line.split(" ")[1];
@@ -42,6 +48,7 @@ inputArray.forEach((line) => {
 
 const directorySizes: number[] = [];
 
+// Size of a directory is the size of its files and its subdirectories sizes
 function calculateDirectorySize(dir: directory) {
   let sum = 0;
 
