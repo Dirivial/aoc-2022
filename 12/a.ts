@@ -27,19 +27,19 @@ inputArray.forEach((line) => {
 const getPossibleNeighbors = (point: Point, height: number) => {
   const neighbors: Point[] = [];
   const { x, y } = point;
-  if (x > 0 && grid[y][x - 1] - height <= 1) {
+  if (x > 0) {
     neighbors.push({ x: x - 1, y });
   }
-  if (x < grid[0].length - 1 && grid[y][x + 1] - height <= 1) {
+  if (x < grid[0].length - 1) {
     neighbors.push({ x: x + 1, y });
   }
-  if (y > 0 && grid[y - 1][x] - height <= 1) {
+  if (y > 0) {
     neighbors.push({ x, y: y - 1 });
   }
-  if (y < grid.length - 1 && grid[y + 1][x] - height <= 1) {
+  if (y < grid.length - 1) {
     neighbors.push({ x, y: y + 1 });
   }
-  return neighbors;
+  return neighbors.filter((v) => grid[v.y][v.x] - height <= 1);
 };
 
 function pointToString(point: Point) {
@@ -50,13 +50,12 @@ const visited: Set<string> = new Set();
 const breadthFirst: Point[][] = [[start]];
 visited.add(pointToString(start));
 
-console.log(visited);
-
 while (breadthFirst.length > 0) {
   const currentPath = breadthFirst.shift()!;
   const currentPoint = currentPath[currentPath.length - 1];
   const currentHeight = grid[currentPoint.y][currentPoint.x];
   const neighbors = getPossibleNeighbors(currentPoint, currentHeight);
+
   neighbors.forEach((neighbor) => {
     const neighborKey = `${neighbor.x},${neighbor.y}`;
     if (neighborKey === `${end.x},${end.y}`) {
